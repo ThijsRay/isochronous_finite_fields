@@ -20,10 +20,12 @@
  *  SOFTWARE.
  */
 
-use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
-#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug, Hash)]
+#![no_std]
+use core::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+
 // The reason to use a fixed u8 type instead of generics is to guarantee at compile time that all
 // elements fit in the finite field GF(2^8).
+#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug, Hash)]
 pub struct GF(pub u8);
 
 impl GF {
