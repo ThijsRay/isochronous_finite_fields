@@ -1,6 +1,6 @@
 [package]
 name = "isochronous_finite_fields"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["Thijs Raymakers <thijs@raymakers.nl>"]
 edition = "2018"
 description = "Isochronous implementation of GF(2^8) arithmetic"
@@ -8,7 +8,7 @@ categories = ["mathematics", "algorithms", "cryptography", "no-std", "science"]
 license = "MIT"
 
 [badges]
-maintenance = { status = "passively-maintained" }
+maintenance = { status = "as-is" }
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
