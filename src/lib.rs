@@ -55,6 +55,12 @@ fn extend_bit(input: u8) -> u8 {
     (((input) as i8) << 7).wrapping_shr(7) as u8
 }
 
+impl From<u8> for GF {
+    fn from(x: u8) -> Self {
+        GF(x)
+    }
+}
+
 impl Add for GF {
     type Output = Self;
 
