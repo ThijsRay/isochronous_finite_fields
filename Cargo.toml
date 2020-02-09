@@ -4,8 +4,11 @@ version = "1.0.0"
 authors = ["Thijs Raymakers <thijs@raymakers.nl>"]
 edition = "2018"
 description = "Isochronous implementation of GF(2^8) arithmetic"
+keywords = ["finite", "galois", "isochronous", "field", "fields"]
 categories = ["mathematics", "algorithms", "cryptography", "no-std", "science"]
 license = "MIT"
+repository = "https://github.com/ThijsRay/isochronous_finite_fields"
+readme = "README.md"
 
 [badges]
 maintenance = { status = "as-is" }
