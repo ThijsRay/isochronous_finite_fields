@@ -1,9 +1,9 @@
 [package]
-name = "branch_free_finite_field"
+name = "isochronous_finite_fields"
 version = "0.1.0"
 authors = ["Thijs Raymakers <thijs@raymakers.nl>"]
 edition = "2018"
-description = "Branch-free implementation of GF(2^8) arithmetic"
+description = "Isochronous implementation of GF(2^8) arithmetic"
 categories = ["mathematics", "algorithms", "cryptography", "no-std", "science"]
 license = "MIT"
 
