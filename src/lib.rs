@@ -19,16 +19,64 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-
 #![no_std]
+#![deny(missing_docs)]
+
+//! This crate implements
+//! [finite field arithmetic](https://en.wikipedia.org/wiki/Finite_field_arithmetic)
+//! on finite fields with 2<sup>8</sup> elements, often denoted as GF(2<sup>8</sup>),
+//! [isochronously](https://en.wikipedia.org/wiki/Isochronous). This means that it will always
+//! run in the same amount of time, no matter the input.
+//!
+//! The implementation isochronous, because it:
+//! * is branch free
+//! * runs in constant time
+//! * doesn't do table lookups
+//!
+//! This crate uses the irreducible polynomial
+//! <i>x</i><sup>8</sup> + <i>x</i><sup>4</sup> + <i>x</i><sup>3</sup> + <i>x</i> + 1
+//! for multiplication, as
+//! standardized for the AES algorithm in
+//! [FIPS 197](https://csrc.nist.gov/csrc/media/publications/fips/197/final/documents/fips-197.pdf).
+//!
+//! # Example
+//! ```
+//! # use isochronous_finite_fields::GF;
+//! // Add two elements of the Galois field GF(2^8) together.
+//! assert_eq!(GF(5) + GF(12), GF(9));
+//!
+//! // Subtract two elements of the Galois field GF(2^8).
+//! assert_eq!(GF(32) - GF(219), GF(251));
+//!
+//! // Multiply two elements of the Galois field GF(2^8) together.
+//! assert_eq!(GF(175) * GF(47),  GF(83));
+//!
+//! // Calculate the multiplicative inverse of GF(110) in the Galois field GF(2^8).
+//! assert_eq!(GF(110).multiplicative_inverse(), GF(33));
+//! assert_eq!(GF(110) * GF(33), GF(1));
+//! ```
+
 use core::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
-// The reason to use a fixed u8 type instead of generics is to guarantee at compile time that all
-// elements fit in the finite field GF(2^8).
+/// Galois field wrapper struct.
+///
+/// It is wrapped around an `u8` type, to guarantee at compile time that
+/// all elements are in the finite field GF(2<sup>8</sup>).
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug, Hash)]
 pub struct GF(pub u8);
 
 impl GF {
+    /// Calculates the multiplicative inverse. The multiplicative inverse is the element in the
+    /// Galois field that results in a product of 1.
+    ///
+    /// # Example
+    /// ```
+    /// # use isochronous_finite_fields::GF;
+    /// let element = GF(148);
+    /// let inverse = element.multiplicative_inverse();
+    ///
+    /// assert_eq!(element * inverse, GF(1));
+    /// ```
     pub fn multiplicative_inverse(self) -> Self {
         let mut p = 0;
 
@@ -51,6 +99,7 @@ impl GF {
 }
 
 #[inline(always)]
+/// Extend the right most bit to all the other bits in the byte.
 fn extend_bit(input: u8) -> u8 {
     (((input) as i8) << 7).wrapping_shr(7) as u8
 }
@@ -61,6 +110,9 @@ impl From<u8> for GF {
     }
 }
 
+/// Adding two elements in the Galois field GF(2<sup>8</sup>) is equal to doing an exclusive
+/// or (XOR) between the two elements.
+/// It is also equal to subtracting two elements.
 impl Add for GF {
     type Output = Self;
 
@@ -78,6 +130,9 @@ impl AddAssign for GF {
     }
 }
 
+/// Subtracting two elements in the Galois field GF(2<sup>8</sup>) is equal to doing an exclusive
+/// or (XOR) between the two elements.
+/// It is also equal to adding two elements.
 impl Sub for GF {
     type Output = Self;
 
@@ -92,8 +147,10 @@ impl SubAssign for GF {
     }
 }
 
-// Uses the AES standardized irreducible polynomial x^8 + x^4 + x^3 + x + 1 or 0b1_0001_1011 as
-// the modulus of the multiplication operation.
+/// Multiplication in this finite field is multiplication modulo AES standardized irreducible
+/// polynomial
+/// <i>x</i><sup>8</sup> + <i>x</i><sup>4</sup> + <i>x</i><sup>3</sup> + <i>x</i> + 1
+/// (or `0b1_0001_1011`).
 impl Mul for GF {
     type Output = Self;
 
