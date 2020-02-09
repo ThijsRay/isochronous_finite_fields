@@ -25,7 +25,7 @@
 //! This crate implements
 //! [finite field arithmetic](https://en.wikipedia.org/wiki/Finite_field_arithmetic)
 //! on finite fields with 2<sup>8</sup> elements, often denoted as GF(2<sup>8</sup>),
-//! [isochronously](https://en.wikipedia.org/wiki/Isochronous). This means that it will always
+//! in an [isochronous](https://en.wikipedia.org/wiki/Isochronous) manner. This means that it will always
 //! run in the same amount of time, no matter the input.
 //!
 //! The implementation isochronous, because it:
