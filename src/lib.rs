@@ -50,6 +50,7 @@ impl GF {
     }
 }
 
+#[inline(always)]
 fn extend_bit(input: u8) -> u8 {
     (((input) as i8) << 7).wrapping_shr(7) as u8
 }
@@ -57,6 +58,7 @@ fn extend_bit(input: u8) -> u8 {
 impl Add for GF {
     type Output = Self;
 
+    #[inline(always)]
     fn add(self, rhs: Self) -> Self::Output {
         #[allow(clippy::suspicious_arithmetic_impl)]
         Self(self.0 ^ rhs.0)
@@ -64,6 +66,7 @@ impl Add for GF {
 }
 
 impl AddAssign for GF {
+    #[inline(always)]
     fn add_assign(&mut self, rhs: Self) {
         *self = self.add(rhs)
     }
