@@ -3,3 +3,4 @@ challenge/
 english.txt
 .idea/
 *.iml
+cargo.lock

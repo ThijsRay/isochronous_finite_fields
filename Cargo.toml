@@ -16,3 +16,14 @@ maintenance = { status = "as-is" }
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[dev-dependencies]
+criterion = "0.3.6"
+
+[[bench]]
+name = "mul_inv"
+harness = false
+
+[[bench]]
+name = "mul"
+harness = false
