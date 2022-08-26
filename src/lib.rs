@@ -81,13 +81,13 @@ impl GF {
         let mut p = 0;
 
         for x in 0u8..=255u8 {
-            // If zero, the multiplication is results in GF(1)
+            // If zero, the multiplication results in GF(1)
             // If non-zero, the multiplication ends with something different.
             let y = (self * GF(x)).0 ^ 1;
 
-            // OR all bits together in the rightmost bit. If y is zero, that means that the
-            // result of ORing all bits together will also be zero. Otherwise, it will be 1.
-            let or = y | y >> 1 | y >> 2 | y >> 3 | y >> 4 | y >> 5 | y >> 6 | y >> 7;
+            // Check whether y is 0, then cast to integer.
+            // If y is 0, result will be 0. Otherwise, it will be 1.
+            let or = (y != 0) as u8;
 
             // Extend the bits to the full byte and negate it. This means that the AND will
             // be zero if the multiplication in y was 1.
